@@ -202,8 +202,12 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const vert = '│';
+  const gor = '─';
+  const space = ' ';
+  const expressionMiddle = `${vert}${space.repeat(width - 2)}${vert}\n`;
+  return `┌${gor.repeat(width - 2)}┐\n${expressionMiddle.repeat(height - 2)}└${gor.repeat(width - 2)}┘\n`;
 }
 
 
@@ -223,8 +227,31 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const alphabetUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let newStr = '';
+  let index;
+  let elem = '';
+  newStr = str.split('').map((item) => {
+    if (alphabet.indexOf(item) !== -1) {
+      index = alphabet.indexOf(item) + 13;
+      if (index >= alphabet.length) {
+        index -= alphabet.length;
+      }
+      elem = alphabet[index];
+    } else if (alphabetUpper.indexOf(item) !== -1) {
+      index = alphabetUpper.indexOf(item) + 13;
+      if (index >= alphabetUpper.length) {
+        index -= alphabetUpper.length;
+      }
+      elem = alphabet[index].toUpperCase();
+    } else {
+      elem = item;
+    }
+    return elem;
+  });
+  return newStr.join('');
 }
 
 /**
@@ -269,10 +296,17 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arrSuit = ['♣', '♦', '♥', '♠'];
+  const arrValue = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const deck = [];
+  arrSuit.forEach((item) => {
+    arrValue.forEach((elem) => {
+      deck.push(`${elem}${item}`);
+    });
+  });
+  return deck.indexOf(value);
 }
-
 
 module.exports = {
   concatenateStrings,
