@@ -128,7 +128,7 @@ function retry(func, attempts) {
       try {
         res = func();
       } catch (e) {
-        console.log(e);
+        // empty
       }
     }
     return res;
